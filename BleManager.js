@@ -1,6 +1,9 @@
 'use strict';
 var React = require('react-native');
 var bleManager = React.NativeModules.BleManager;
+const Platform = React.Platform;
+
+const isIOS = Platform.OS === 'ios';
 
 class BleManager  {
 
@@ -91,13 +94,15 @@ class BleManager  {
 
   connect(peripheralId, autoConnect = false) {
     return new Promise((fulfill, reject) => {
-      bleManager.connect(peripheralId, autoConnect, (error) => {
+      const cb = (error) => {
         if (error) {
           reject(error);
         } else {
           fulfill();
         }
-      });
+      }
+      const args = isIOS ? [peripheralId, cb] : [peripheralId, autoConnect, cb]
+      bleManager.connect.apply(null, args)
     });
   }
 
