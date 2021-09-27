@@ -204,7 +204,7 @@ BleManager.stopScan()
 
 ```
 
-### connect(peripheralId)
+### connect(peripheralId, autoConnect)
 Attempts to connect to a peripheral. In many case if you can't connect you have to scan for the peripheral before.
 Returns a `Promise` object.
 
@@ -212,6 +212,12 @@ Returns a `Promise` object.
 
 __Arguments__
 - `peripheralId` - `String` - the id/mac address of the peripheral to connect.
+- `autoConnect` - `boolean` - [Android only] defaults to `false`. 
+Whether to directly connect to the peripheral (`false`) or to automatically connect as soon as the peripheral becomes available (`true`). This is useful if you want to re-connect to a known peripheral when it becomes available.
+
+  > Setting this flag to `true` makes the call to **never time out** (a behavior similar to iOS). 
+
+  > Auto connect takes longer than direct connect and **only works for cached or bonded devices**.
 
 __Examples__
 ```js
